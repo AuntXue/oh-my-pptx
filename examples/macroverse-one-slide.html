@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1920, initial-scale=1" />
+    <title>Macroverse One Slide</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #182033;
+        --muted: #667085;
+        --line: #d8dfeb;
+        --blue: #2563eb;
+        --green: #0f9f6e;
+        --gold: #d69e2e;
+        --paper: #f7f9fc;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #d9dee8;
+        font-family: Inter, "SF Pro Display", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      }
+
+      .slide {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        position: relative;
+        background:
+          linear-gradient(120deg, rgba(37, 99, 235, 0.10), transparent 42%),
+          linear-gradient(300deg, rgba(15, 159, 110, 0.13), transparent 48%),
+          var(--paper);
+        color: var(--ink);
+        padding: 92px 108px;
+      }
+
+      .topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 2px solid var(--line);
+        padding-bottom: 28px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-size: 34px;
+        font-weight: 760;
+        letter-spacing: 0;
+      }
+
+      .mark {
+        width: 54px;
+        height: 54px;
+        border-radius: 14px;
+        background:
+          linear-gradient(135deg, var(--blue), #5b8cff 48%, var(--green));
+      }
+
+      .date {
+        font-size: 24px;
+        color: var(--muted);
+      }
+
+      .content {
+        display: grid;
+        grid-template-columns: 1.08fr 0.92fr;
+        gap: 82px;
+        align-items: center;
+        height: calc(100% - 84px);
+      }
+
+      h1 {
+        margin: 0 0 34px;
+        font-size: 102px;
+        line-height: 1.02;
+        letter-spacing: 0;
+        max-width: 960px;
+      }
+
+      .lead {
+        max-width: 850px;
+        font-size: 36px;
+        line-height: 1.42;
+        color: #344054;
+        margin: 0 0 58px;
+      }
+
+      .chips {
+        display: flex;
+        gap: 18px;
+      }
+
+      .chip {
+        border: 2px solid var(--line);
+        background: rgba(255, 255, 255, 0.72);
+        padding: 17px 24px;
+        border-radius: 8px;
+        font-size: 24px;
+        font-weight: 680;
+      }
+
+      .panel {
+        border: 2px solid var(--line);
+        background: rgba(255, 255, 255, 0.76);
+        padding: 46px;
+        border-radius: 8px;
+      }
+
+      .panel h2 {
+        margin: 0 0 32px;
+        font-size: 42px;
+        letter-spacing: 0;
+      }
+
+      .stack {
+        display: grid;
+        gap: 22px;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 24px;
+        align-items: start;
+        padding: 24px 0;
+        border-top: 2px solid var(--line);
+      }
+
+      .row:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      .name {
+        font-size: 26px;
+        font-weight: 760;
+      }
+
+      .desc {
+        color: #475467;
+        font-size: 25px;
+        line-height: 1.38;
+      }
+
+      .accent {
+        position: absolute;
+        left: 108px;
+        bottom: 80px;
+        width: 360px;
+        height: 8px;
+        background: linear-gradient(90deg, var(--blue), var(--green), var(--gold));
+      }
+    </style>
+  </head>
+  <body>
+    <main class="slide">
+      <header class="topline">
+        <div class="brand">
+          <div class="mark"></div>
+          <div>Macroverse</div>
+        </div>
+        <div class="date">2026-04-28</div>
+      </header>
+
+      <section class="content">
+        <div>
+          <h1>HTML to Native PPTX</h1>
+          <p class="lead">
+            Use Deckops as the conversion bridge: design slides in HTML, then ship editable PowerPoint files for DeckFlow workflows.
+          </p>
+          <div class="chips">
+            <div class="chip">HTML/CSS</div>
+            <div class="chip">Deckops</div>
+            <div class="chip">PPTX</div>
+          </div>
+        </div>
+
+        <aside class="panel">
+          <h2>oh-my-pptx skill</h2>
+          <div class="stack">
+            <div class="row">
+              <div class="name">Author</div>
+              <div class="desc">Generate a fixed-size HTML slide with explicit typography and layout.</div>
+            </div>
+            <div class="row">
+              <div class="name">Convert</div>
+              <div class="desc">Call <strong>deckops convert</strong> through a repeatable wrapper script.</div>
+            </div>
+            <div class="row">
+              <div class="name">Deliver</div>
+              <div class="desc">Save task metadata and download the returned PPTX artifact when available.</div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <div class="accent"></div>
+    </main>
+  </body>
+</html>
