@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1920, height=1080, initial-scale=1" />
+    <title>Macroverse Two Slide Example</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #dfe5ee;
+        font-family: Inter, "SF Pro Display", Arial, sans-serif;
+      }
+
+      .slide {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        padding: 96px 116px;
+        color: #172033;
+        background: #f8fafc;
+        border-bottom: 1px solid #d8dee9;
+      }
+
+      .slide:nth-of-type(2) {
+        background: #f5fbf8;
+      }
+
+      .eyebrow {
+        margin: 0 0 28px;
+        color: #2563eb;
+        font-size: 30px;
+        font-weight: 760;
+      }
+
+      h1 {
+        margin: 0 0 36px;
+        max-width: 1120px;
+        font-size: 104px;
+        line-height: 1.03;
+        letter-spacing: 0;
+      }
+
+      p {
+        max-width: 980px;
+        margin: 0;
+        color: #475467;
+        font-size: 38px;
+        line-height: 1.38;
+      }
+
+      .bar {
+        position: absolute;
+        left: 116px;
+        bottom: 92px;
+        width: 380px;
+        height: 10px;
+        background: linear-gradient(90deg, #2563eb, #10b981);
+      }
+    </style>
+  </head>
+  <body>
+    <section class="slide">
+      <p class="eyebrow">Slide 1 / HTML source</p>
+      <h1>Split multi-page HTML into single-slide files</h1>
+      <p>Oh My PPTX detects each .slide block and sends one page at a time to DeckFlow for conversion.</p>
+      <div class="bar"></div>
+    </section>
+
+    <section class="slide">
+      <p class="eyebrow">Slide 2 / Final deck</p>
+      <h1>Merge converted pages back into one PPTX</h1>
+      <p>The final output is one downloadable PowerPoint file, with intermediate task details kept out of the user-facing result.</p>
+      <div class="bar"></div>
+    </section>
+  </body>
+</html>

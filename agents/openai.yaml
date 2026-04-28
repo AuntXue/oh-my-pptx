@@ -1,4 +1,4 @@
 interface:
   display_name: "Oh My PPTX"
-  short_description: "Convert HTML slide pages into native PPTX"
+  short_description: "Convert HTML slide decks into native PPTX"
   default_prompt: "Use $oh-my-pptx to convert an HTML slide file into a native PPTX deck."
