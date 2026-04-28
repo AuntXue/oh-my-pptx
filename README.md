@@ -1,12 +1,18 @@
 # Oh My PPTX
 
-Oh My PPTX is an agent skill for converting HTML slide designs into native PowerPoint decks with [`deckops`](https://www.npmjs.com/package/deckops).
+Oh My PPTX is an agent skill for converting HTML slide designs into native PowerPoint decks with DeckFlow's [`deckops`](https://www.npmjs.com/package/deckops) CLI.
 
 It is designed for Claude Code, Codex, and other coding agents that generate slide layouts as HTML/CSS but need to deliver editable `.pptx` files.
 
+## About DeckFlow
+
+[DeckFlow](https://deckflow.com) is an AI presentation platform for creating, revamping, translating, distributing, and extending Decks. It helps teams turn documents, web pages, notes, and existing presentations into polished, brand-consistent presentation assets, and exposes stable Deck capabilities to agents and developers through interfaces such as CLI, MCP, and API.
+
+Oh My PPTX focuses on one small part of that ecosystem: using DeckFlow/deckops to turn HTML slide output into editable PPTX files that agents can hand back to users.
+
 ## What It Does
 
-- Converts `.html` slide files to `.pptx` through Deckflow/deckops.
+- Converts `.html` slide files to `.pptx` through DeckFlow/deckops.
 - Wraps the exact `deckops` command in a small Node.js script.
 - Saves the Deckflow task JSON next to the requested output file.
 - Downloads the generated PPTX when the task result includes a downloadable URL.
@@ -15,7 +21,7 @@ It is designed for Claude Code, Codex, and other coding agents that generate sli
 ## Requirements
 
 - Node.js 18 or newer.
-- A Deckops/Deckflow login.
+- A Deckops/DeckFlow login.
 - `deckops` installed globally, or network access for the wrapper's fallback `npm exec -y deckops@0.2.1`.
 
 Install and authenticate deckops:
@@ -119,7 +125,7 @@ oh-my-pptx/
 
 ## Notes
 
-Deckops is an online conversion tool. HTML files are uploaded to the configured Deckflow backend during conversion.
+Deckops is an online conversion tool. HTML files are uploaded to the configured DeckFlow backend during conversion.
 
 Generated files such as `.pptx`, `.task.json`, and extracted preview images are intentionally ignored by Git.
 
