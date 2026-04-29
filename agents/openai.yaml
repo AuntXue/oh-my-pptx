@@ -1,7 +1,7 @@
 interface:
   display_name: "Oh My PPTX"
-  short_description: "Split, inspect, and convert HTML slides with DeckFlow"
+  short_description: "Convert HTML slides to PPTX with DeckFlow"
   icon_small: "./assets/deckflow-icon-400.png"
   icon_large: "./assets/deckflow-icon-1024.png"
   brand_color: "#E25242"
-  default_prompt: "Use $oh-my-pptx to split and inspect this HTML slide deck, then convert it into a native PPTX with DeckFlow."
+  default_prompt: "Use $oh-my-pptx to convert this HTML slide deck into a native PPTX with DeckFlow."
