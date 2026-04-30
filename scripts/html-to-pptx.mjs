@@ -377,7 +377,7 @@ function inlineCssUrls(css, baseDir, warnings) {
 }
 
 function resolveAssetPath(rawUrl, baseDir, warnings) {
-  const cleaned = String(rawUrl).trim();
+  const cleaned = String(rawUrl).trim().replace(/^['"]|['"]$/g, "");
   if (!cleaned || /^(?:data|https?|blob|mailto|javascript):/i.test(cleaned) || cleaned.startsWith("#")) return null;
   const withoutQuery = cleaned.split(/[?#]/)[0];
   let filePath;
@@ -850,6 +850,7 @@ function inspectPages(pages, canvas, splitMode, scriptMode, globalWarnings) {
     const relativeAssets = findRelativeAssets(page.html);
     if (relativeAssets.length > 0) {
       pageWarnings.push(`Page still has relative asset references: ${relativeAssets.slice(0, 5).join(", ")}`);
+      pageWarnings.push("Relative asset references can fail in DeckFlow if the uploaded HTML page does not carry those files with it; inline assets or repackage the slide before conversion.");
     }
 
     warnings.push(...pageWarnings.map((warning) => `slide ${page.index}: ${warning}`));
