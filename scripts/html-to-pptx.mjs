@@ -17,6 +17,7 @@ import { fileURLToPath } from "node:url";
 
 const DEFAULT_WIDTH = 1920;
 const DEFAULT_HEIGHT = 1080;
+const MIN_DECKOPS_VERSION = "0.4.1";
 const DEFAULT_SELECTORS = [".slide", "section.slide", "[data-slide]", "[data-slide-index]", "[data-page]"];
 const VOID_TAGS = new Set([
   "area",
@@ -59,6 +60,9 @@ Options:
 
 Environment:
   DECKOPS_BIN, DECKOPS_NPM_SPEC
+
+Requires:
+  deckops ${MIN_DECKOPS_VERSION} or newer for batch HTML-to-PPTX conversion.
 `;
 
 function parseArgs(argv) {
@@ -175,12 +179,75 @@ function commandExists(cmd) {
 }
 
 function deckopsCommand(explicit) {
-  if (explicit) return { cmd: explicit, baseArgs: [] };
-  if (commandExists("deckops")) return { cmd: "deckops", baseArgs: [] };
+  if (explicit) return { cmd: explicit, baseArgs: [], source: "explicit" };
+  if (commandExists("deckops")) {
+    const globalCommand = { cmd: "deckops", baseArgs: [], source: "global" };
+    const globalVersion = readDeckopsVersion(globalCommand).version;
+    if (globalVersion && isVersionAtLeast(globalVersion, MIN_DECKOPS_VERSION)) {
+      return { ...globalCommand, version: globalVersion };
+    }
+  }
   return {
     cmd: "npm",
     baseArgs: ["exec", "-y", process.env.DECKOPS_NPM_SPEC || "deckops@latest", "--"],
+    source: "npm exec",
   };
+}
+
+function readDeckopsVersion(command) {
+  const result = spawnSync(command.cmd, [...command.baseArgs, "--version"], { encoding: "utf8" });
+  const stdout = result.stdout || "";
+  const stderr = result.stderr || "";
+  return {
+    version: parseSemver(stdout) || parseSemver(stderr),
+    status: result.status,
+    error: result.error,
+    output: stripAnsi(`${stdout}\n${stderr}`).trim(),
+  };
+}
+
+function ensureDeckops(command) {
+  const versionInfo = command.version
+    ? { version: command.version, status: 0, error: null, output: command.version }
+    : readDeckopsVersion(command);
+
+  if (versionInfo.error) {
+    throw new Error(`Could not run deckops via ${commandLabel(command)}: ${versionInfo.error.message}`);
+  }
+  if (!versionInfo.version) {
+    const detail = versionInfo.output ? `\n${versionInfo.output}` : "";
+    throw new Error(`Could not read deckops version from ${commandLabel(command)}.${detail}`);
+  }
+  if (!isVersionAtLeast(versionInfo.version, MIN_DECKOPS_VERSION)) {
+    throw new Error(
+      `deckops ${versionInfo.version} is too old. Oh My PPTX requires deckops ${MIN_DECKOPS_VERSION} or newer. Upgrade with: npm install -g deckops@latest`
+    );
+  }
+
+  command.version = versionInfo.version;
+  return versionInfo.version;
+}
+
+function commandLabel(command) {
+  return [command.cmd, ...command.baseArgs].join(" ");
+}
+
+function parseSemver(value) {
+  const match = stripAnsi(String(value || "")).match(/(?:^|[^\d])(\d+\.\d+\.\d+)(?:[^\d]|$)/);
+  return match ? match[1] : null;
+}
+
+function isVersionAtLeast(version, minimum) {
+  const current = parseSemver(version);
+  const required = parseSemver(minimum);
+  if (!current || !required) return false;
+  const currentParts = current.split(".").map(Number);
+  const requiredParts = required.split(".").map(Number);
+  for (let index = 0; index < 3; index += 1) {
+    if (currentParts[index] > requiredParts[index]) return true;
+    if (currentParts[index] < requiredParts[index]) return false;
+  }
+  return true;
 }
 
 function runDeckops(command, deckopsArgs) {
@@ -990,9 +1057,12 @@ async function main() {
     }
 
     let conversion = null;
+    let deckopsVersion = null;
     if (!args.inspectOnly) {
       const command = deckopsCommand(args.deckops);
+      deckopsVersion = ensureDeckops(command);
       mkdirSync(dirname(outPath), { recursive: true });
+      log(`Deckops: ${deckopsVersion} (${command.source}).`, args.json);
       log(`Submitting ${htmlPaths.length} HTML file(s) to DeckFlow batch convert.`, args.json);
       conversion = await convertBatchAndDownload(command, htmlPaths, outPath, plan.canvas, args);
     }
@@ -1008,6 +1078,8 @@ async function main() {
       scriptMode: args.scriptMode,
       canvas: plan.canvas,
       needEmbedFonts: args.needEmbedFonts,
+      minDeckopsVersion: MIN_DECKOPS_VERSION,
+      deckopsVersion,
       warnings: inspection.warnings,
       conversion,
     };

@@ -10,13 +10,14 @@ Use this skill when the user has an HTML slide design and wants a native editabl
 ## Requirements
 
 - Node.js 18 or newer.
-- Latest `deckops` CLI with HTML-to-PPTX batch conversion.
+- `deckops` CLI 0.4.1 or newer with HTML-to-PPTX batch conversion.
 - DeckFlow authentication via `deckops login` or configured token/space.
 
 Install or upgrade if needed:
 
 ```bash
 npm install -g deckops@latest
+deckops --version
 deckops login
 ```
 
@@ -67,7 +68,7 @@ deckops --json convert slide-001.html slide-002.html --to pptx --width 1920 --he
 ## Troubleshooting
 
 - Auth errors: run `deckops login`.
-- Missing batch conversion options: upgrade with `npm install -g deckops@latest`.
+- Old or mismatched CLI version: upgrade with `npm install -g deckops@latest`; `deckops --version` must be 0.4.1 or newer.
 - Relative asset warnings such as `assets/foo.css` or `assets/bar.png`: fix the HTML packaging before conversion, or inline the assets. Do not keep retrying remote converts until inspection is clean.
 - Missing JS-rendered content: rerun with `--script-mode keep`, or pre-render the content into static HTML.
 - Layout drift: inspect the kept split HTML files and prefer explicit slide containers or explicit canvas dimensions.
